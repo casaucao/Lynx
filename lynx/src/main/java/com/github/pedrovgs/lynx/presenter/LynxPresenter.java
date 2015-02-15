@@ -37,9 +37,11 @@ public class LynxPresenter implements Lynx.Listener {
   private final View view;
   private final TraceBuffer traceBuffer;
   private boolean isInitialized;
+  private boolean isFilterPanelVisible;
 
   public LynxPresenter(Lynx lynx, View view, int maxNumberOfTracesToShow) {
     validateNumberOfTracesConfiguration(maxNumberOfTracesToShow);
+    isFilterPanelVisible = false;
     this.lynx = lynx;
     this.view = view;
     this.traceBuffer = new TraceBuffer(maxNumberOfTracesToShow);
@@ -187,6 +189,16 @@ public class LynxPresenter implements Lynx.Listener {
     return sb.toString();
   }
 
+  public void onFilterButtonClicked() {
+    if (isFilterPanelVisible) {
+      view.hideFilterPanel();
+    } else {
+      view.showFilterPanel();
+    }
+
+    isFilterPanelVisible = !isFilterPanelVisible;
+  }
+
   public interface View {
 
     void showTraces(List<Trace> traces, int removedTraces);
@@ -198,5 +210,9 @@ public class LynxPresenter implements Lynx.Listener {
     void disableAutoScroll();
 
     void enableAutoScroll();
+
+    void showFilterPanel();
+
+    void hideFilterPanel();
   }
 }

@@ -63,6 +63,8 @@ public class LynxView extends RelativeLayout implements LynxPresenter.View {
   private ListView lv_traces;
   private EditText et_filter;
   private ImageButton ib_share;
+  private ImageButton ib_filter;
+  private RelativeLayout rl_filter_panel;
 
   private RendererAdapter<Trace> adapter;
   private int lastScrollPosition;
@@ -180,6 +182,14 @@ public class LynxView extends RelativeLayout implements LynxPresenter.View {
     lv_traces.setTranscriptMode(AbsListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
   }
 
+  @Override public void showFilterPanel() {
+    rl_filter_panel.setVisibility(View.VISIBLE);
+  }
+
+  @Override public void hideFilterPanel() {
+    rl_filter_panel.setVisibility(View.GONE);
+  }
+
   private boolean isPresenterReady() {
     return presenter != null;
   }
@@ -240,6 +250,8 @@ public class LynxView extends RelativeLayout implements LynxPresenter.View {
     lv_traces.setTranscriptMode(AbsListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
     et_filter = (EditText) findViewById(R.id.et_filter);
     ib_share = (ImageButton) findViewById(R.id.ib_share);
+    ib_filter = (ImageButton) findViewById(R.id.ib_filter);
+    rl_filter_panel = (RelativeLayout) findViewById(R.id.rl_filter_panel);
     configureCursorColor();
     updateFilterText();
   }
@@ -305,6 +317,12 @@ public class LynxView extends RelativeLayout implements LynxPresenter.View {
     ib_share.setOnClickListener(new OnClickListener() {
       @Override public void onClick(View v) {
         presenter.onShareButtonClicked();
+      }
+    });
+
+    ib_filter.setOnClickListener(new OnClickListener() {
+      @Override public void onClick(View v) {
+        presenter.onFilterButtonClicked();
       }
     });
   }
